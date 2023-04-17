@@ -31,13 +31,18 @@ export const App=()=>{
     return () => clearInterval(intervalId);
   }, []);
 
+  function toggleSearcherAndResult(){
+    const searcher=document.getElementById('select-place');
+    const result=document.getElementById('data-weather');
+    searcher.classList.toggle('none');
+    result.classList.toggle('none');
+  }
   return (
     <>
-    <aside className='select-place'>
+    <aside className='select-place responsive2' id='select-place'>
       <section className='select-country'>
         <label>Elige un pais</label>
-        <button>X</button>
-      <select onChange={countryHandler}>
+        <select onChange={countryHandler}>
         <option value="">Selecciona</option>
         {countries.map(country=><option key={country.cca2} value={country.cca2}>{country.name.common}</option>)}
         
@@ -51,18 +56,21 @@ export const App=()=>{
         <option value="">Selecciona</option>
         {cities.map(city=><option key={city.id}>{city.name}</option>)}
       </select>
+      {weather&&(
+        <button className='toogler1' onClick={toggleSearcherAndResult}>Buscar</button>
+      )}
       </section>
     )}
     </aside>
-
     {weather&&(
-    <section className='weather-data'>
+    <section className='weather-data none' id='data-weather'>
       <section className='main-data'>
+      <button className='toogler2' onClick={toggleSearcherAndResult}>Busca otro lado</button>
         <img src={`http://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`} alt="iconWeather" />
         <h2>{weather.main.temp.toFixed()}°C</h2>
         <p className='weather-description'>{weather.weather[0].description}</p>
         <p className='weather-date'>Hoy - {date.toLocaleDateString()}</p>
-        <p className='weather-location'><img src="/src/assets/location.png" alt="" />{weather.name}</p>
+        <p className='weather-location'><img src="https://i.ibb.co/bvvms06/icons8-location-50.png" alt="" />{weather.name}</p>
         </section>
         <section className='weather-details'>
           <h3 className='weather-details-title'>Detalles</h3>
